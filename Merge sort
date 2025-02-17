@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+void combine(vector<int>&v,int l,int r,int mid)
+{
+ int n=mid-l+1,m=r-mid;
+ vector<int>la(n),ra(m);
+ for(int i=0;i<n;i++)
+ {
+    la[i]=v[l+i]; 
+ }
+ for(int i=0;i<m;i++)
+ {
+    ra[i]=v[mid+i+1];
+ }
+ int i=0,j=0,cur=l;
+ while(i<n and j<m)
+ {
+    if(la[i]<=ra[j])
+    {
+     v[cur++]=la[i++];
+    }
+    else 
+    {
+        v[cur++]=ra[j++];
+    }
+ }
+ while(i<n)
+ {
+    v[cur++]=la[i++];
+ }
+ while(j<m)
+ {
+    v[cur++]=ra[j++];
+ }
+}
+void margesort(vector<int>&v,int l,int r)
+{
+   if(l>=r)return;
+   int mid=(l+r)/2;
+   margesort(v,l,mid);
+   margesort(v,mid+1,r);
+   combine(v,l,r,mid);
+}
+int main()
+{
+    int n; cin>>n;
+    vector<int>v(n);
+    for(auto &i:v)cin>>i;
+    margesort(v,0,n-1);
+    for(auto i:v)cout<<i<<' '; cout<<endl;
+   
+}
+
